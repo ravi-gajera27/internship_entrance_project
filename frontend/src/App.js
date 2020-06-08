@@ -1,10 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import './App.css';
+import Login from './containers/login/login';
+import Signup from './containers/signup/signup';
 
 function App() {
   return (
-    <h1>hello user</h1>
+    <Switch>
+      <Redirect from={'/'} to={'/login'} exact/>
+      <Route path={'/login'} exact component={Login} />
+      <Route path={'/signup'} exact component={Signup} />
+    </Switch>
   );
 }
 
