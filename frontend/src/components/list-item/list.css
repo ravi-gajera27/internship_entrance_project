@@ -1,0 +1,17 @@
+.content{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.thumb{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.list-group-item{
+    padding: 10px 25px;
+}

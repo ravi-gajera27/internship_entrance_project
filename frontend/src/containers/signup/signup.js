@@ -1,5 +1,7 @@
 import React from 'react';
 import Input from '../../components/input/input';
+import { Route } from 'react-router';
+import ContactInfo from '../contact/contact-info/contactInfo';
 
 class Signup extends React.Component{
 
@@ -108,7 +110,12 @@ class Signup extends React.Component{
             disabled={(!unameValid || !passValid || !emailValid)}>Submit</button>
         </form>
     )
-    return form;
+    return (
+        <div>
+            {form}
+            <Route path={'/signup/info'} exact component={ContactInfo}></Route>
+        </div>
+    )
     }
 }
 
