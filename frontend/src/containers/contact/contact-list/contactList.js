@@ -1,86 +1,87 @@
 import React from 'react';
 import ListItem from '../../../components/list-item/listItem';
 import './contactList.css';
+import { NavLink } from 'react-router-dom';
 
-class ContactList extends React.Component{
+class ContactList extends React.Component {
     state = {
-        contactDetails:[{
+        contactDetails: [{
             name: 'Ravi Gajera',
             mobileNo: '1234567890',
             email: 'ravi@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Prit Gajera',
             mobileNo: '1234567890',
             email: 'prit@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Zeel Dobariya',
             mobileNo: '1234567890',
             email: 'zeel@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Ravi Gajera',
             mobileNo: '1234567890',
             email: 'ravi@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Prit Gajera',
             mobileNo: '1234567890',
             email: 'prit@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Zeel Dobariya',
             mobileNo: '1234567890',
             email: 'zeel@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Ravi Gajera',
             mobileNo: '1234567890',
             email: 'ravi@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Prit Gajera',
             mobileNo: '1234567890',
             email: 'prit@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Zeel Dobariya',
             mobileNo: '1234567890',
             email: 'zeel@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Ravi Gajera',
             mobileNo: '1234567890',
             email: 'ravi@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Prit Gajera',
             mobileNo: '1234567890',
             email: 'prit@gmail.com',
-            status: 'active'   
-        },{
+            status: 'active'
+        }, {
             name: 'Zeel Dobariya',
             mobileNo: '1234567890',
             email: 'zeel@gmail.com',
-            status: 'active'   
+            status: 'active'
         }],
-        item:{
+        item: {
             name: '',
             mobileNo: '',
             email: '',
-            status: ''   
+            status: ''
         }
     }
-    
+
     clickedHandler = (item) => {
         console.log(item)
     }
 
-    render(){
+    render() {
         let list = (
             <div className="list-group">
-                {this.state.contactDetails.map((user,i) => (
+                {this.state.contactDetails.map((user, i) => (
                     <ListItem key={i} user={user} />
                 ))}
             </div>
@@ -93,13 +94,16 @@ class ContactList extends React.Component{
                             Contact
                         </div>
                     </div>
+                    <NavLink style={{float:'right'}} className="nav-link" to="/contact/add">
+                        <i className="fa fa-plus"></i>
+                    </NavLink>
                 </nav>
-                <div className="list-item" style={{height:(window.innerWidth >= 768 ? window.innerHeight - 100 : 'default')}}>
+                <div className="list-item" style={{ height: (window.innerWidth >= 768 ? window.innerHeight - 100 : 'default') }}>
                     {list}
                 </div>
             </div>
         )
-    }   
+    }
 }
 
 export default ContactList;

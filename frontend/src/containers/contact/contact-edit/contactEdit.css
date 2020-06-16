@@ -26,23 +26,3 @@ ul{
     justify-content: end;
 }
 
-.card-content{
-    height: 100%;
-    border: 1px solid #f0f0f0;
-}
-.card{
-    height:70px;
-}
-.card-body{
-    padding: 0.9rem;
-    vertical-align: center;
-}
-.img{
-    background-color: lightseagreen;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-}
-.username{
-    margin-left: 3%;
-}

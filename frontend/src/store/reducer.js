@@ -12,6 +12,9 @@ const reducer = (state = initialState,action) => {
         newState.user = action.val;
         return newState;
     }
+    if(action.type === 'EDIT_CONYTACT'){
+        return state;
+    }
     return state;
 }
 

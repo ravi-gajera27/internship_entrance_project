@@ -1,14 +1,19 @@
 import React from 'react';
 import './contactInfo.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Contact from '../contact';
 
 class ContactInfo extends React.Component {
     render() {
+        let redirect = null;
+        if(this.props.user.name == ''){
+          redirect = ( <Redirect to={'/contact'}/> )
+        }
         let navbar = (
-            <nav className="navbar bg-info navbar-expand-sm">
+            <nav className="navbar bg-info navbar-expand">
                 <div className="navbar-header">
-                    <div className="navbar-brand">
+                    <div className="navbar-brand" style={{ visibility: 'hidden' }}>
                         Details
                         </div>
                 </div>
@@ -20,7 +25,7 @@ class ContactInfo extends React.Component {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/contact/remove">
+                            <NavLink className="nav-link" to="/contact">
                             <i className="fa fa-trash"></i>
                             </NavLink>
                         </li>
@@ -46,6 +51,7 @@ class ContactInfo extends React.Component {
         )
         return (
             <div className="container-wrapper-right">
+                {redirect}
                 {navbar}
                 {content}
             </div>
@@ -58,4 +64,5 @@ const mapStoreToProps = (state) => {
         user: state.user
     }
 }
+
 export default connect(mapStoreToProps)(ContactInfo);

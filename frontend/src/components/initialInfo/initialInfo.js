@@ -1,5 +1,4 @@
 import React from 'react';
-
 const initilInfo = () => {
     let initial_dom = (
         <div className="container-wrapper-right">
@@ -10,6 +9,7 @@ const initilInfo = () => {
                     </div>
                 </div>
             </nav>
+            <div className="back-content" style={{height: window.innerHeight - 100,backgroundColor:'lightseagreen'}}></div>
         </div>
     )
     return initial_dom;

@@ -4,6 +4,8 @@ import ContactList from './contact-list/contactList';
 import './contact.css';
 import { Route, Switch } from 'react-router';
 import initilInfo from '../../components/initialInfo/initialInfo';
+import ContactEdit from './contact-edit/contactEdit';
+import ContactAdd from './contact-add/contactAdd';
 
 class Contact extends React.Component {
     render() {
@@ -17,6 +19,8 @@ class Contact extends React.Component {
                     <Switch>
                         <Route path={'/contact'} exact component={initilInfo}></Route>
                         <Route path={'/contact/info'} exact component={ContactInfo}></Route>
+                        <Route path={'/contact/edit'} exact component={ContactEdit}></Route>
+                        <Route path={'/contact/add'} exact component={ContactAdd}></Route>
                     </Switch>
                 </div>
             </div>
@@ -27,6 +31,8 @@ class Contact extends React.Component {
                     <Switch>
                         <Route path={'/contact'} exact component={ContactList}></Route>
                         <Route path={'/contact/info'} exact component={ContactInfo}></Route>
+                        <Route path={'/contact/edit'} exact component={ContactEdit}></Route>
+                        <Route path={'/contact/add'} exact component={ContactAdd}></Route>
                     </Switch>
                 </div>
             </div>
@@ -41,6 +47,7 @@ class Contact extends React.Component {
         return (
             <div>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                    
                 </link>
                 {view}
             </div>
