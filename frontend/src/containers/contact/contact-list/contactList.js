@@ -2,82 +2,27 @@ import React from 'react';
 import ListItem from '../../../components/list-item/listItem';
 import './contactList.css';
 import { NavLink } from 'react-router-dom';
+import Axios from 'axios';
 
 class ContactList extends React.Component {
     state = {
-        contactDetails: [{
-            name: 'Ravi Gajera',
-            mobileNo: '1234567890',
-            email: 'ravi@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Prit Gajera',
-            mobileNo: '1234567890',
-            email: 'prit@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Zeel Dobariya',
-            mobileNo: '1234567890',
-            email: 'zeel@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Ravi Gajera',
-            mobileNo: '1234567890',
-            email: 'ravi@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Prit Gajera',
-            mobileNo: '1234567890',
-            email: 'prit@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Zeel Dobariya',
-            mobileNo: '1234567890',
-            email: 'zeel@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Ravi Gajera',
-            mobileNo: '1234567890',
-            email: 'ravi@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Prit Gajera',
-            mobileNo: '1234567890',
-            email: 'prit@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Zeel Dobariya',
-            mobileNo: '1234567890',
-            email: 'zeel@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Ravi Gajera',
-            mobileNo: '1234567890',
-            email: 'ravi@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Prit Gajera',
-            mobileNo: '1234567890',
-            email: 'prit@gmail.com',
-            status: 'active'
-        }, {
-            name: 'Zeel Dobariya',
-            mobileNo: '1234567890',
-            email: 'zeel@gmail.com',
-            status: 'active'
-        }],
-        item: {
-            name: '',
-            mobileNo: '',
-            email: '',
-            status: ''
-        }
+        contactDetails: []
     }
-
-    clickedHandler = (item) => {
-        console.log(item)
+    componentDidMount = () => {
+        
+        Axios.get(process.env.REACT_APP_GET_CONTACTS).then(res =>{
+            if(res.data['statusCode'] === 401){
+                window.alert('you are logged out');
+                return this.props.history.push('/login')
+            } 
+           let newContactDetails = { ...this.state.contactDetails}
+           newContactDetails = res.data['contacts'];
+           newContactDetails.sort((a,b)=> { return a.uname.toLowerCase() < b.uname.toLowerCase()})
+           this.setState({contactDetails:newContactDetails})
+        }).catch(err =>{
+            console.log('err',err)
+        })
     }
-
     render() {
         let list = (
             <div className="list-group">

@@ -1,5 +1,5 @@
-import React, { useState, FC } from 'react';
-import './list.css';
+import React from 'react';
+import './listItem.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -8,9 +8,9 @@ const list = (props) => {
         <Link onClick={() => props.selectHandler(props.user)} to={'/contact/info'} className="list-group-item list-group-item-action">
             <div className="content">
                 <div className="thumb">
-                    {props.user.name.charAt(0)}
+                    {props.user.uname.toUpperCase().charAt(0)}
                 </div>
-                <div style={{ marginLeft: 20 }}>{props.user.name}</div>
+                <div style={{ marginLeft: 20 }}>{props.user.uname}</div>
             </div>
         </Link>
     )

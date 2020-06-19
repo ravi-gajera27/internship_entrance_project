@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Input from '../../../components/input/input';
+import Axios from 'axios';
 
 class Edit extends React.Component{
    
@@ -18,7 +19,7 @@ class Edit extends React.Component{
                     required:true
                 },
                 valid:true,
-                value:this.props.user.name
+                value:this.props.user.uname
             },
             email:{
                 label:'Email',
@@ -64,10 +65,6 @@ class Edit extends React.Component{
         }
     }
    
-    componentDidMount (){
-        console.log(this.props.user);
-        
-    }
     checkValidity = (value,rules) => {
         let isValid = true;
 
@@ -96,9 +93,41 @@ class Edit extends React.Component{
        this.setState({editForm:updateEditForm})
     }
 
-    saveHandler = () => {
-        console.log(this.state.editForm)
+    saveHandler = async (e) => {
+        let valid = ( this.state.editForm.uname.valid && 
+            this.state.editForm.email.valid &&
+            this.state.editForm.mobile.valid &&
+            this.state.editForm.status.valid );
+        if(valid){
+            let user = {
+                uname:this.state.editForm.uname.value,
+                email:this.state.editForm.email.value,
+                mobileNo:this.state.editForm.mobile.value,
+                status:this.state.editForm.status.value,
+            }
+            console.log(this.state.editForm)
+            Axios.post(`${process.env.REACT_APP_UPDATE_CONTACT}/${this.props.user._id}`,user).then(res => {
+                if(res.data['statusCode'] === 401){
+                    window.alert('you are logged out');
+                    return this.props.history.push('/login')
+                } 
+                if(res.data){
+                window.alert('contact updated successfully')
+                this.props.history.push('/contact');
+               }
+           }).catch(err => {
+               console.log(err);
+               window.alert('something went wrong')
+               e.preventDefault();
+           })
+        }
+        else{
+            console.log(valid)
+            window.alert('Enter valid details')
+            e.preventDefault();
+        }
     }
+
 
     render(){
         let navbar = (
@@ -111,12 +140,12 @@ class Edit extends React.Component{
                     <div className="collapse navbar-collapse justify-content-end">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <NavLink className="nav-link" onClick={this.saveHandler} to="/contact">
+                                <div className="nav-link" onClick={this.saveHandler}>
                                     <i className="fa fa-save"></i>
-                                </NavLink>
+                                </div>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/contact">
+                                <NavLink onClick={this.deleteHandler} className="nav-link" to="/contact">
                                 <i className="fa fa-remove"></i>
                                 </NavLink>
                             </li>
@@ -144,6 +173,11 @@ class Edit extends React.Component{
                 ))}
             </form>
         )  
+        let redirect = null;
+        
+        if(this.props.user.uname == ''){
+            redirect = (<Redirect from={'/contact/edit'} to={'/contact'}/>);
+        }
         let content = (
             <div className="card" style={{height:'auto'}}>
                 <div className="card-body">
@@ -154,7 +188,7 @@ class Edit extends React.Component{
         return (
             <div className="container-wrapper-right">
                             <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-                {this.props.user.name === '' ? <Redirect to={'/contact'}/> : null}
+                {redirect}
                 {navbar}
                 {content}
             </div>

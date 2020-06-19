@@ -1,6 +1,7 @@
 const initialState = {
     user:{
-        name:'',
+        _id:'',
+        uname:'',
         email:'',
         mobileNo:'',
         status:'',

@@ -2,13 +2,28 @@ import React from 'react';
 import './contactInfo.css';
 import { NavLink, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Contact from '../contact';
+import Axios from 'axios';
 
 class ContactInfo extends React.Component {
+    deleteHandler = (e) => {
+        Axios.delete(`${process.env.REACT_APP_REMOVE_CONTACT}/${this.props.user._id}`).then(res => {
+            if(res.data['statusCode'] === 401){
+                window.alert('you are logged out');
+                return this.props.history.push('/login')
+            } 
+            if(res.data){
+            window.alert('contact deleted successfully')
+            this.props.history.push('/contact')
+          }  
+           }).catch(err => {
+               window.alert('something went wrong')
+        })
+    }
+
     render() {
         let redirect = null;
-        if(this.props.user.name == ''){
-          redirect = ( <Redirect to={'/contact'}/> )
+        if(this.props.user.uname == ''){
+          redirect = ( <Redirect from={'/contact/info'} to={'/contact'}/> )
         }
         let navbar = (
             <nav className="navbar bg-info navbar-expand">
@@ -25,9 +40,9 @@ class ContactInfo extends React.Component {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/contact">
+                            <div onClick={this.deleteHandler} className="nav-link">
                             <i className="fa fa-trash"></i>
-                            </NavLink>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -36,7 +51,7 @@ class ContactInfo extends React.Component {
         let content = (
             <div className="card-content" style={{height:(window.innerWidth >= 768 ? window.innerHeight - 100 : 'default')}}>
                 <div className="img" style={{height:(window.innerWidth >= 768 ? 60+'%' : 50+'%')}}>
-                    <p className="username">{this.props.user.name}</p>
+                    <p className="username">{this.props.user.uname}</p>
                 </div>
                     <div className="card">
                         <div className="card-body">
