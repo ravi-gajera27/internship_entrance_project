@@ -2,17 +2,17 @@ require('dotenv').config();
 let app = require('express')();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const userRoute = require('./routes/user.route');
+const authRoute = require('./routes/auth');
+const contactRoute = require('./routes/contact');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 /* port initialization */
 let port = process.env.Port || 3000;
 
-/* connection to mongodb */
-mongoose.connect('mongodb://localhost:27017/temp');
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 /* set the header */
 app.all('/*', (req, res, next) => {
@@ -22,25 +22,24 @@ app.all('/*', (req, res, next) => {
   next();
 });
 
-/* token verification for every user request LIKE [ user/getContact, user/updateContact ]
-    except login & signin */
-app.all('/user/*Contact', (req,res,next) =>{
+app.all('/contact/*', (req, res, next) => {
   let header = req.headers['authorization'];
-  let token = header.split(' ')[1];
-  let verify = tokenVrification(token);
-  tokenVrification(req.body.token).then(verify =>{
-    if(verify == true){
-        next();
-    }
-  }).catch(err =>{
-   return res.json({
-      statusCode: 401,
-      statusLine: 'invalid token'
-    })
-  })
+  if(header){
+      let token = header.split(' ')[1];
+      tokenVerification(token).then(verify => {
+          if (verify) {
+              next();
+          }
+      }).catch(err => {
+          res.json({ statusCode:401, message:'invalid token' })
+      })
+  }
+  else{
+      res.json({ statusCode:401, message: 'Unauthorized'})
+  }
 })
 
-function tokenVrification(token){
+tokenVerification = (token) => {
   return new Promise((resolve,reject)=>{
     jwt.verify(token, process.env.SECRET_TOKEN, (err, result) => {
       if (err){
@@ -53,32 +52,22 @@ function tokenVrification(token){
   })
 }
 
-/* token verification for unauthorized page */
-app.post('/tokenVerification', (req, res) => {
-  if (req.body.token) {
-    tokenVrification(req.body.token).then(verify =>{
-      if (verify == true){
-        res.json({
-          statusCode: 200,
-          statusLine: 'token successfully verified'
-        })
-      }
-    }).catch(err =>{
-      res.json({
-        statusCode: 401,
-        statusLine: 'invalid token'
-      })
-    })
-  }
-  else{
-    res.json({
-      statusCode:400,
-      statusLine: 'bad request'
-    })
-  }
+app.get('/contact/tokenVerification',(req, res) => {
+  res.json({ statusCode:200, message:'token is verified' })
 })
 
 /* to process the user request,  request is redirected to the userRoute */
-app.use('/user', userRoute);
+app.use('/contact',contactRoute);
+app.use('/user', authRoute);
 
-app.listen(port);
+/* connection to mongodb */
+const url = process.env.MONGO_CONNECTION_URL;
+mongoose
+  .connect(
+    url
+  )
+  .then(result => {
+    console.log("Connected!!!");
+    app.listen(port,()=>{console.log(`Server has started on ${port}...`)});
+  })
+  .catch(err => console.log(err));
