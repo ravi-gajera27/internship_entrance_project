@@ -1,1 +1,1 @@
-# internship_entrance_project is based on MERN stack development
+# internship_entrance_project is built in MERN stack
