@@ -43,7 +43,7 @@ tokenVerification = (token) => {
   return new Promise((resolve,reject)=>{
     jwt.verify(token, process.env.SECRET_TOKEN, (err, result) => {
       if (err){
-        reject(err);
+        reject(false);
       }
       else{
         resolve(true);
@@ -51,10 +51,6 @@ tokenVerification = (token) => {
     })
   })
 }
-
-app.get('/contact/tokenVerification',(req, res) => {
-  res.json({ statusCode:200, message:'token is verified' })
-})
 
 /* to process the user request,  request is redirected to the userRoute */
 app.use('/contact',contactRoute);
